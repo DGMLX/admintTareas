@@ -7,11 +7,8 @@ import AlertaPendiente from "../helpers/AlertaPendiente"
 
 const TareasEliminadasPage = () =>{
 
-    const {tareas,setOpenEliminar,setOpenDone,setOpenPendiente} =useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDone,setOpenPendiente,eliminarTarea} =useContext(TodoContext)
 
-    const eliminarTarea=() =>{
-        setOpenEliminar(true)
-    }
     const doneTarea = ()=>{
         setOpenDone(true)
     }
@@ -33,7 +30,7 @@ const TareasEliminadasPage = () =>{
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
                             <Button variant="outlined" color="success" sx={{mr:2}} onClick={()=>doneTarea()}>Realizada</Button>
                             <Button variant="outlined" color="warning" sx={{mr:2}} onClick={()=>pendingTarea()}>Pendiente</Button>
-                            <Button variant="outlined" onClick={()=>eliminarTarea()} color="error">X</Button>
+                            <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
                 ))}

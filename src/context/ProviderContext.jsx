@@ -1,9 +1,8 @@
 import { useState } from "react"
 import TodoContext from "./todoContext"
 
-const initialState = [
-    {
-        nombre:"Realizar tarea numero 1",
+
+     /*   nombre:"Realizar tarea numero 1",
         done:false,
         fechaCreacion:new Date().getDate() +"/"+ ((new Date().getUTCMonth())+1) + "/"+ new Date().getFullYear(),
         horaCreacion:new Date().getHours() + ":"+ new Date().getMinutes() + ":" + new Date().getSeconds(),
@@ -14,43 +13,18 @@ const initialState = [
         deleted:false,
         edited:false,
         id: new Date().getTime()
-    },
-    {
-        nombre:"Realizar tarea numero 2",
-        fechaCreacion:new Date().getDate() +"/"+ ((new Date().getUTCMonth())+1) + "/"+ new Date().getFullYear(),
-        horaCreacion:new Date().getHours() + ":"+ new Date().getMinutes() + ":" + new Date().getSeconds(),
-        fechaEliminacion:"",
-        horaEliminacion:"",
-        fechaEdicion:"",
-        horaEdicion:"",
-        done:false,
-        deleted:false,
-        edited:false,
-        id: new Date().getTime()*2
-    },
-    {
-        nombre:"Realizar tarea numero 3",
-        fechaCreacion:new Date().getDate() +"/"+ ((new Date().getUTCMonth())+1) + "/"+ new Date().getFullYear(),
-        horaCreacion:new Date().getHours() + ":"+ new Date().getMinutes() + ":" + new Date().getSeconds(),
-        fechaEliminacion:"",
-        horaEliminacion:"",
-        fechaEdicion:"",
-        horaEdicion:"",
-        done:false,
-        deleted:false,
-        edited:false,
-        id: new Date().getTime()*3
-    },
-]
+        */ 
+
 
 const ProviderContext = ({children}) =>{
 
-    const [tareas,setTarea] = useState(initialState)
+    const [tareas,setTarea] = useState([])
     const [openEliminar,setOpenEliminar] = useState(false)
     const [openPendiente,setOpenPendiente] = useState(false)
     const [openDone,setOpenDone] = useState(false)
     const [openDrawerEdit, setOpenDrawerEdit] = useState(false)
     const [openGuardarEdit, setOpenGuardarEdit] = useState(false)
+    const [openInputTarea,setOpenInputTarea] = useState(false)
     
 
     const addTarea = (nuevaTarea) =>{
@@ -64,9 +38,15 @@ const ProviderContext = ({children}) =>{
         console.log(tareaDeleted)
     }
 
+    const eliminarTarea = (id) =>{
+        
+        const nuevoArray = tareas.filter(tarea=>tarea.id!=id)
+        setTarea(nuevoArray)
+        setOpenEliminar(true)
+    }
 
     return(
-        <TodoContext.Provider value={{tareas,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit}}>
+        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea}}>
             {children}
         </TodoContext.Provider>
     )

@@ -6,11 +6,9 @@ import GuardarEdicion from "../helpers/guardarEdicion"
 
 const TareasPendientesPage = () =>{
 
-    const {tareas,setOpenEliminar,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit} =useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,eliminarTarea} =useContext(TodoContext)
 
-    const eliminarTarea=() =>{
-        setOpenEliminar(true)
-    }
+
     const SaveAndCloseEdit = ()=>{
         setOpenGuardarEdit(true)
         setOpenDrawerEdit(false)
@@ -44,7 +42,7 @@ const TareasPendientesPage = () =>{
                         <Typography align="left">{tarea.nombre}</Typography>
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
                             <Button variant="outlined"  color="primary" sx={{mr:2}} onClick={()=>setOpenDrawerEdit(true)}>Editar</Button>
-                            <Button variant="outlined" onClick={()=>eliminarTarea()} color="error">X</Button>
+                            <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
                 ))}

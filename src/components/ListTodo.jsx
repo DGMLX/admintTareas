@@ -5,13 +5,11 @@ import AlertaEliminar from "../helpers/AlertaEliminar"
 import AlertaDone from "../helpers/AlertaDone"
 import GuardarEdicion from "../helpers/guardarEdicion"
 
+
 const ListTodo = () =>{
     
-    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit} = useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea} = useContext(TodoContext)
 
-    const eliminarTarea=() =>{
-        setOpenEliminar(true)
-    }
 
     const doneTarea = () =>{
         setOpenDone(true)
@@ -64,7 +62,7 @@ const ListTodo = () =>{
                                     onClick={()=>doneTarea()}>Done</Button>
                                     <Button variant="outlined" color="primary" sx={{mr:2}}
                                     onClick={()=>setOpenDrawerEdit(true)}>Editar</Button>
-                                    <Button variant="outlined" onClick={()=>eliminarTarea()} color="error">X</Button>
+                                    <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                                 </Grid>
                             </>
                         ))}
