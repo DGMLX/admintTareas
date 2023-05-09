@@ -29,9 +29,9 @@ const ProviderContext = ({children}) =>{
 
     const addTarea = (nuevaTarea) =>{
         setTarea(
-            tareas,
-            tareas.push(nuevaTarea)
+            [...tareas,nuevaTarea]
         )
+        console.log(tareas)
     }
 
     const deleteTarea = (tareaDeleted) =>{
@@ -40,13 +40,35 @@ const ProviderContext = ({children}) =>{
 
     const eliminarTarea = (id) =>{
         
-        const nuevoArray = tareas.filter(tarea=>tarea.id!=id)
-        setTarea(nuevoArray)
         setOpenEliminar(true)
+        setTarea(tareas.map(tarea=>{
+            if (tarea.id === id){
+                return {...tarea,deleted:true,notDeleted:false}
+            }
+            return tarea
+    }))
+    }
+
+    const doneTarea = (id) =>{
+        setOpenDone(true)
+        setTarea(tareas.map(tarea=>{
+            if (tarea.id === id){
+                return {...tarea,done:true}
+            }
+            return tarea
+    }))
+    }
+    const pendingTarea = (id)=>{
+        setTarea(tareas.map(tarea=>{
+            if(tarea.id === id){
+                return{...tarea,done:false}
+            }
+            return tarea
+        }))
     }
 
     return(
-        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea}}>
+        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea,doneTarea,pendingTarea}}>
             {children}
         </TodoContext.Provider>
     )

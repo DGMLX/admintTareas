@@ -8,16 +8,14 @@ import GuardarEdicion from "../helpers/guardarEdicion"
 
 const ListTodo = () =>{
     
-    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea} = useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea,doneTarea,pendingTarea} = useContext(TodoContext)
 
 
-    const doneTarea = () =>{
-        setOpenDone(true)
-    }
     const SaveAndCloseEdit = ()=>{
         setOpenGuardarEdit(true)
         setOpenDrawerEdit(false)
     }
+
     return(
         <>
             {/* <Snackbar
@@ -52,26 +50,47 @@ const ListTodo = () =>{
                 <Grid Item md={5}>
                     <Typography variant="h5">Tareas pendientes: Amount</Typography>
                     <Grid container sx={{display:"flex",mt:3}}>
-                        {tareas.map(tarea=>(
+                        {tareas.map(tarea=>{
+                            if(tarea.done === false && tarea.notDeleted === true){
+                                return(
                             <>
                                 <Grid Item md={8} sx={{mt:3}}>
                                     <Typography align="left">{tarea.nombre}</Typography>
                                 </Grid>
                                 <Grid Item md={4} sx={{display:"flex",justifyContent:"space-evenly",mt:3}}>
                                     <Button variant="outlined" color="success" sx={{mr:2}}
-                                    onClick={()=>doneTarea()}>Done</Button>
+                                    onClick={()=>doneTarea(tarea.id)}>Done</Button>
                                     <Button variant="outlined" color="primary" sx={{mr:2}}
                                     onClick={()=>setOpenDrawerEdit(true)}>Editar</Button>
                                     <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                                 </Grid>
                             </>
-                        ))}
+                            )
+                        }
+                    })}
                     </Grid>
                 </Grid>
 
                 <Grid Item md={5} >
                     <Typography variant="h5">Tareas realizadas: Amount</Typography>
                     <Grid Container sx={{display:"flex",mt:3,flexWrap:"wrap"}}>
+                        {tareas.map(tarea=>{
+                            if(tarea.done === true && tarea.notDeleted === true){
+                                return (
+                                    <>
+                                    <Grid Item md={8} sx={{mt:3}}>
+                                    <Typography align="left">{tarea.nombre}</Typography>
+                                        </Grid>
+                                        <Grid Item md={4} sx={{display:"flex",justifyContent:"space-evenly",mt:3}}>
+                                            <Button variant="outlined" color="warning" sx={{mr:2}}
+                                            onClick={()=>pendingTarea(tarea.id)}>Pendiente</Button>
+                                            
+                                            <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
+                                    </Grid>
+                                    </>
+                                )
+                            }
+                        })}
             
                     </Grid>
                 </Grid>

@@ -37,7 +37,10 @@ const TareasPendientesPage = () =>{
             <Typography variant="h2" mb={3}>Tareas pendientes: Amount</Typography>
             <Divider/>
             <Grid Container mt={3}>
-                {tareas.map(tarea=>(
+                {tareas.map(tarea=>{
+                    if(tarea.done === false && tarea.notDeleted === true){
+                        return(
+                            <>
                     <Grid Item sx={{display:"flex", justifyContent:"space-between",mb:3}}>
                         <Typography align="left">{tarea.nombre}</Typography>
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
@@ -45,7 +48,10 @@ const TareasPendientesPage = () =>{
                             <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
-                ))}
+                    </>
+                )
+            }
+        })}
             </Grid>
         </>
     )

@@ -7,14 +7,9 @@ import AlertaPendiente from "../helpers/AlertaPendiente"
 
 const TareasEliminadasPage = () =>{
 
-    const {tareas,setOpenEliminar,setOpenDone,setOpenPendiente,eliminarTarea} =useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDone,setOpenPendiente,eliminarTarea,pendingTarea,doneTarea} =useContext(TodoContext)
 
-    const doneTarea = ()=>{
-        setOpenDone(true)
-    }
-    const pendingTarea = ()=>{
-        setOpenPendiente(true)
-    }
+    
     return(
         <>
             <AlertaDone/>
@@ -24,16 +19,23 @@ const TareasEliminadasPage = () =>{
             <Typography variant="h2" mb={3}>Tareas eliminadas: Amount</Typography>
             <Divider/>
             <Grid Container mt={3}>
-                {tareas.map(tarea=>(
+                {tareas.map(tarea=>{
+                    if(tarea.deleted === true && tarea.notDeleted === false){
+                        return(
+                            <>
+
                     <Grid Item sx={{display:"flex", justifyContent:"space-between",mb:3}}>
                         <Typography align="left">{tarea.nombre}</Typography>
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
-                            <Button variant="outlined" color="success" sx={{mr:2}} onClick={()=>doneTarea()}>Realizada</Button>
-                            <Button variant="outlined" color="warning" sx={{mr:2}} onClick={()=>pendingTarea()}>Pendiente</Button>
+                            <Button variant="outlined" color="success" sx={{mr:2}} onClick={()=>doneTarea(tarea.id)}>Realizada</Button>
+                            <Button variant="outlined" color="warning" sx={{mr:2}} onClick={()=>pendingTarea(tarea.id)}>Pendiente</Button>
                             <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
-                ))}
+                    </>
+                )
+            }
+        })}
             </Grid>
         </>
     )

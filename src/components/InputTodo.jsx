@@ -17,8 +17,17 @@ const InputTodo = ({addTarea}) =>{
             nombre : e.target.value,
             done:false,
             deleted:false,
-            id: new Date().getTime()
+            notDeleted:true,
+            id: new Date().getTime(),
+            edited:false,
+            fechaCreacion:new Date().getDate() +"/"+ ((new Date().getUTCMonth())+1) + "/"+ new Date().getFullYear(),
+            horaCreacion:new Date().getHours() + ":"+ new Date().getMinutes() + ":" + new Date().getSeconds(),
+            fechaEliminacion:"",
+            horaEliminacion:"",
+            fechaEdicion:"",
+            horaEdicion:"",
         }
+
         setTarea(
             newTodo
             )
