@@ -7,7 +7,7 @@ import AlertaPendiente from "../helpers/AlertaPendiente"
 
 const TareasEliminadasPage = () =>{
 
-    const {tareas,setOpenEliminar,setOpenDone,setOpenPendiente,eliminarTarea,pendingTarea,doneTarea} =useContext(TodoContext)
+    const {pendingTarea,doneTarea,tareas} =useContext(TodoContext)
 
     
     return(

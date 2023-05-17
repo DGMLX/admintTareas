@@ -53,7 +53,7 @@ const ProviderContext = ({children}) =>{
         setOpenDone(true)
         setTarea(tareas.map(tarea=>{
             if (tarea.id === id){
-                return {...tarea,done:true}
+                return {...tarea,done:true,deleted:false,notDeleted:true}
             }
             return tarea
     }))
@@ -61,7 +61,7 @@ const ProviderContext = ({children}) =>{
     const pendingTarea = (id)=>{
         setTarea(tareas.map(tarea=>{
             if(tarea.id === id){
-                return{...tarea,done:false}
+                return{...tarea,done:false,deleted:false,notDeleted:true}
             }
             return tarea
         }))
