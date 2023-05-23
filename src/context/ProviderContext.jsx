@@ -49,6 +49,12 @@ const ProviderContext = ({children}) =>{
     }))
     }
 
+    const eliminarDefinitivo = (id) =>{
+        setOpenEliminar(true)
+        const nuevasTareas = tareas.filter(tarea=>tarea.id !== id)
+        setTarea(nuevasTareas)
+    }
+
     const doneTarea = (id) =>{
         setOpenDone(true)
         setTarea(tareas.map(tarea=>{
@@ -59,6 +65,7 @@ const ProviderContext = ({children}) =>{
     }))
     }
     const pendingTarea = (id)=>{
+        setOpenPendiente(true)
         setTarea(tareas.map(tarea=>{
             if(tarea.id === id){
                 return{...tarea,done:false,deleted:false,notDeleted:true}
@@ -68,7 +75,7 @@ const ProviderContext = ({children}) =>{
     }
 
     return(
-        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea,doneTarea,pendingTarea}}>
+        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea,doneTarea,pendingTarea,eliminarDefinitivo}}>
             {children}
         </TodoContext.Provider>
     )

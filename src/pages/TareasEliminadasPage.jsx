@@ -7,7 +7,7 @@ import AlertaPendiente from "../helpers/AlertaPendiente"
 
 const TareasEliminadasPage = () =>{
 
-    const {pendingTarea,doneTarea,tareas} =useContext(TodoContext)
+    const {pendingTarea,doneTarea,tareas,eliminarDefinitivo} =useContext(TodoContext)
 
     
     return(
@@ -29,7 +29,7 @@ const TareasEliminadasPage = () =>{
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
                             <Button variant="outlined" color="success" sx={{mr:2}} onClick={()=>doneTarea(tarea.id)}>Realizada</Button>
                             <Button variant="outlined" color="warning" sx={{mr:2}} onClick={()=>pendingTarea(tarea.id)}>Pendiente</Button>
-                            <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
+                            <Button variant="outlined" onClick={()=>eliminarDefinitivo(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
                     </>
