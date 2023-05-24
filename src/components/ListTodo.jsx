@@ -8,7 +8,7 @@ import GuardarEdicion from "../helpers/guardarEdicion"
 
 const ListTodo = () =>{
     
-    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea,doneTarea,pendingTarea} = useContext(TodoContext)
+    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea,doneTarea,pendingTarea,cantidadTareasPendientes} = useContext(TodoContext)
 
 
     const SaveAndCloseEdit = ()=>{
@@ -48,7 +48,7 @@ const ListTodo = () =>{
 
             <Grid container sx={{display:"flex",justifyContent:"space-evenly"}}>
                 <Grid Item md={5}>
-                    <Typography variant="h5">Tareas pendientes: Amount</Typography>
+                    <Typography variant="h5">Tareas pendientes: {cantidadTareasPendientes()}</Typography>
                     <Grid container sx={{display:"flex",mt:3}}>
                         {tareas.map(tarea=>{
                             if(tarea.done === false && tarea.notDeleted === true){
