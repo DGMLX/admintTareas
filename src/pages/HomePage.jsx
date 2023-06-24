@@ -10,7 +10,6 @@ const HomePage = () =>{
     // // console.log(new Date().getDay())
 
     const {tareas,addTarea} = useContext(TodoContext)
-    console.log(tareas)
     return(
         <>
             

@@ -7,7 +7,6 @@ import TodoContext from "../context/todoContext"
 const InputTodo = ({addTarea}) =>{
 
     const {setOpenInputTarea} = useContext(TodoContext)    
-
     const [tarea,setTarea] = useState({
         nombre:""
     })
@@ -38,13 +37,17 @@ const InputTodo = ({addTarea}) =>{
         if (tarea.nombre===""){
             console.log("Ingresa un valor válido")
         }else{
-            setOpenInputTarea(true)
+            setOpenInputTarea(true)        
             addTarea(tarea)
+            
             setTarea({
                 nombre:""
-            })   
+            })
+            
         }   
+
     }
+    
     return(
         <>
             <AlertaAgregada/>

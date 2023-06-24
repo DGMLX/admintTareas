@@ -1,22 +1,39 @@
 import { Button, Divider, Grid, Toolbar, Typography } from "@mui/material"
 import TodoContext from "../context/todoContext"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import AlertaEliminar from "../helpers/AlertaEliminar"
 import AlertaDone from "../helpers/AlertaDone"
 import AlertaPendiente from "../helpers/AlertaPendiente"
 
 const TareasEliminadasPage = () =>{
 
-    const {pendingTarea,doneTarea,tareas,eliminarDefinitivo} =useContext(TodoContext)
+    const {pendingTarea,doneTarea,tareas,eliminarDefinitivo,cantEliminados,setCantPendientes,setCantRealizado,setCantEliminados} =useContext(TodoContext)
 
-    
+    useEffect(()=>{
+        setCantPendientes(tareas.filter(tarea=>{
+            if(tarea.done == false && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantRealizado(tareas.filter(tarea=>{
+            if(tarea.done == true && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantEliminados(tareas.filter(tarea=>{
+            if(tarea.deleted == true && tarea.notDeleted == false){
+                return tarea
+            }
+        }))
+
+    },[tareas])
     return(
         <>
             <AlertaDone/>
             <AlertaEliminar/>
             <AlertaPendiente/>
             <Toolbar/>
-            <Typography variant="h2" mb={3}>Tareas eliminadas: Amount</Typography>
+            <Typography variant="h2" mb={3}>Tareas eliminadas: {cantEliminados.length}</Typography>
             <Divider/>
             <Grid Container mt={3}>
                 {tareas.map(tarea=>{

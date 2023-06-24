@@ -18,6 +18,7 @@ import TodoContext from "./todoContext"
 
 const ProviderContext = ({children}) =>{
 
+
     const [tareas,setTarea] = useState([])
     const [openEliminar,setOpenEliminar] = useState(false)
     const [openPendiente,setOpenPendiente] = useState(false)
@@ -25,28 +26,42 @@ const ProviderContext = ({children}) =>{
     const [openDrawerEdit, setOpenDrawerEdit] = useState(false)
     const [openGuardarEdit, setOpenGuardarEdit] = useState(false)
     const [openInputTarea,setOpenInputTarea] = useState(false)
+    const [cantPendientes,setCantPendientes] = useState([])
+    const [cantRealizado,setCantRealizado] = useState([])
+    const [cantEliminados,setCantEliminados] = useState([])
+    const [tareaEditSeleccionada,setTareaIdSeleccionada] = useState([])
 
-    const cantidadTareasPendientes = () =>{
-        const cantTareasPendientes = tareas.map(tarea=>{
-            if(tarea.done === false && tarea.deleted === false && tarea.notDeleted === true){
-                return tarea
-            }
-        })
-        return cantTareasPendientes.length
-    }
-    
 
     const addTarea = (nuevaTarea) =>{
+        
         setTarea(
             [...tareas,nuevaTarea]
         )
-        console.log(tareas)
+        
     }
 
     const deleteTarea = (tareaDeleted) =>{
         console.log(tareaDeleted)
     }
 
+    const capturarEdit= (id)=>{
+        setOpenDrawerEdit(true)
+        const tareaEditar = tareas.map(tarea=>{
+            if(tarea.id == id){
+                return tarea
+            }
+        })
+        setTareaIdSeleccionada(tareaEditar)
+    }
+    const SaveAndCloseEdit = ()=>{
+        setOpenGuardarEdit(true)
+        setOpenDrawerEdit(false)
+    }
+    const guardarEdicionTarea = (id) =>{
+        SaveAndCloseEdit()
+        console.log(id)
+    }
+    
     const eliminarTarea = (id) =>{
         
         setOpenEliminar(true)
@@ -71,20 +86,23 @@ const ProviderContext = ({children}) =>{
                 return {...tarea,done:true,deleted:false,notDeleted:true}
             }
             return tarea
-    }))
+
+        }))
+        
     }
     const pendingTarea = (id)=>{
         setOpenPendiente(true)
         setTarea(tareas.map(tarea=>{
             if(tarea.id === id){
                 return{...tarea,done:false,deleted:false,notDeleted:true}
+                
             }
             return tarea
         }))
     }
 
     return(
-        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea,doneTarea,pendingTarea,eliminarDefinitivo,cantidadTareasPendientes}}>
+        <TodoContext.Provider value={{tareas,setTarea,addTarea,deleteTarea,openEliminar,setOpenEliminar,openPendiente,setOpenPendiente,openDone,setOpenDone,openDrawerEdit,setOpenDrawerEdit,openGuardarEdit,setOpenGuardarEdit,openInputTarea,setOpenInputTarea,eliminarTarea,doneTarea,pendingTarea,eliminarDefinitivo,cantPendientes,setCantPendientes,cantRealizado,setCantRealizado,cantEliminados,setCantEliminados,capturarEdit,tareaEditSeleccionada,guardarEdicionTarea}}>
             {children}
         </TodoContext.Provider>
     )

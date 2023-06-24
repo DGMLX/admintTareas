@@ -1,21 +1,41 @@
 import {Box, Button, Drawer, Grid, TextField, Typography } from "@mui/material"
-import { useContext} from "react"
+import { useContext, useEffect} from "react"
 import TodoContext from "../context/todoContext"
 import AlertaEliminar from "../helpers/AlertaEliminar"
 import AlertaDone from "../helpers/AlertaDone"
 import GuardarEdicion from "../helpers/guardarEdicion"
+import EditDrawer from "../helpers/EditDrawer"
 
 
 const ListTodo = () =>{
     
-    const {tareas,setOpenEliminar,setOpenDone,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,setTarea,eliminarTarea,doneTarea,pendingTarea,cantidadTareasPendientes} = useContext(TodoContext)
-
-
+    
+    
+    const {tareas,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,eliminarTarea,doneTarea,pendingTarea,cantPendientes,cantRealizado,setCantPendientes,setCantRealizado,setCantEliminados,capturarEdit} = useContext(TodoContext)
+    
     const SaveAndCloseEdit = ()=>{
         setOpenGuardarEdit(true)
         setOpenDrawerEdit(false)
     }
 
+    useEffect(()=>{
+        setCantPendientes(tareas.filter(tarea=>{
+            if(tarea.done == false && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantRealizado(tareas.filter(tarea=>{
+            if(tarea.done == true && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantEliminados(tareas.filter(tarea=>{
+            if(tarea.deleted == true && tarea.notDeleted == false){
+                return tarea
+            }
+        }))
+
+    },[tareas])
     return(
         <>
             {/* <Snackbar
@@ -36,19 +56,13 @@ const ListTodo = () =>{
                 open={openDrawerEdit}
                 onClose={()=>setOpenDrawerEdit(false)}
             >
-                <Typography variant="h5" align="center" mt={3} mb={5}>Editar Tarea : "Nombre de la tarea"</Typography> 
-                <Box sx={{display:"flex",justifyContent:"center"}} mb={5}>
-                    <TextField sx={{width:"50%"}} label="Nombre de la tarea"/>
-                </Box> 
-                <Box sx={{display:"flex",justifyContent:"center"}} mb={5}>
-                    <Button variant="contained"  sx={{width:"15rem"}} color="primary" onClick={()=>SaveAndCloseEdit()}>Guardar Edición</Button>
-                </Box>
+                <EditDrawer/>
                 
             </Drawer>
 
             <Grid container sx={{display:"flex",justifyContent:"space-evenly"}}>
                 <Grid Item md={5}>
-                    <Typography variant="h5">Tareas pendientes: {cantidadTareasPendientes()}</Typography>
+                    <Typography variant="h5">Tareas pendientes: {cantPendientes.length}</Typography>
                     <Grid container sx={{display:"flex",mt:3}}>
                         {tareas.map(tarea=>{
                             if(tarea.done === false && tarea.notDeleted === true){
@@ -61,7 +75,7 @@ const ListTodo = () =>{
                                     <Button variant="outlined" color="success" sx={{mr:2}}
                                     onClick={()=>doneTarea(tarea.id)}>Done</Button>
                                     <Button variant="outlined" color="primary" sx={{mr:2}}
-                                    onClick={()=>setOpenDrawerEdit(true)}>Editar</Button>
+                                    onClick={()=>capturarEdit(tarea.id)}>Editar</Button>
                                     <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                                 </Grid>
                             </>
@@ -72,10 +86,11 @@ const ListTodo = () =>{
                 </Grid>
 
                 <Grid Item md={5} >
-                    <Typography variant="h5">Tareas realizadas: Amount</Typography>
+                    <Typography variant="h5">Tareas realizadas: {cantRealizado.length}</Typography>
                     <Grid Container sx={{display:"flex",mt:3,flexWrap:"wrap"}}>
                         {tareas.map(tarea=>{
                             if(tarea.done === true && tarea.notDeleted === true){
+                                
                                 return (
                                     <>
                                     <Grid Item md={8} sx={{mt:3}}>

@@ -1,18 +1,38 @@
 import { Box, Button, Divider, Drawer, Grid, TextField, Toolbar, Typography } from "@mui/material"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import TodoContext from "../context/todoContext"
 import AlertaEliminar from "../helpers/AlertaEliminar"
 import GuardarEdicion from "../helpers/guardarEdicion"
+import EditDrawer from "../helpers/EditDrawer"
 
 const TareasPendientesPage = () =>{
 
-    const {tareas,setOpenEliminar,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,eliminarTarea} =useContext(TodoContext)
+    const {tareas,setOpenDrawerEdit,openDrawerEdit,setOpenGuardarEdit,eliminarTarea,cantPendientes,setCantEliminados,setCantRealizado,setCantPendientes,capturarEdit} =useContext(TodoContext)
 
 
     const SaveAndCloseEdit = ()=>{
         setOpenGuardarEdit(true)
         setOpenDrawerEdit(false)
     }
+
+    useEffect(()=>{
+        setCantPendientes(tareas.filter(tarea=>{
+            if(tarea.done == false && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantRealizado(tareas.filter(tarea=>{
+            if(tarea.done == true && tarea.notDeleted == true){
+                return tarea
+            }
+        }))
+        setCantEliminados(tareas.filter(tarea=>{
+            if(tarea.deleted == true && tarea.notDeleted == false){
+                return tarea
+            }
+        }))
+
+    },[tareas])
     
     return(
         <>
@@ -23,18 +43,12 @@ const TareasPendientesPage = () =>{
                 open={openDrawerEdit}
                 onClose={()=>setOpenDrawerEdit(false)}
             >
-                <Typography variant="h5" align="center" mt={3} mb={5}>Editar Tarea : "Nombre de la tarea"</Typography> 
-                <Box sx={{display:"flex",justifyContent:"center"}} mb={5}>
-                    <TextField sx={{width:"50%"}} label="Nombre de la tarea"/>
-                </Box> 
-                <Box sx={{display:"flex",justifyContent:"center"}} mb={5}>
-                    <Button variant="contained"  sx={{width:"15rem"}} color="primary" onClick={()=>SaveAndCloseEdit()}>Guardar Edición</Button>
-                </Box>
+                <EditDrawer/>
                 
             </Drawer>
             
             <Toolbar/>
-            <Typography variant="h2" mb={3}>Tareas pendientes: Amount</Typography>
+            <Typography variant="h2" mb={3}>Tareas pendientes: {cantPendientes.length}</Typography>
             <Divider/>
             <Grid Container mt={3}>
                 {tareas.map(tarea=>{
@@ -44,7 +58,7 @@ const TareasPendientesPage = () =>{
                     <Grid Item sx={{display:"flex", justifyContent:"space-between",mb:3}}>
                         <Typography align="left">{tarea.nombre}</Typography>
                         <Grid sx={{display:"flex",justifyContent:"flex-end"}}>
-                            <Button variant="outlined"  color="primary" sx={{mr:2}} onClick={()=>setOpenDrawerEdit(true)}>Editar</Button>
+                            <Button variant="outlined"  color="primary" sx={{mr:2}} onClick={()=>capturarEdit(tarea.id)}>Editar</Button>
                             <Button variant="outlined" onClick={()=>eliminarTarea(tarea.id)} color="error">X</Button>
                         </Grid>
                     </Grid>
